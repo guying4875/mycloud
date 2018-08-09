@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2018-08-18-8-9 下午3:51
  *
  */
+
 public class CustomerZuulPreFilter extends ZuulFilter {
     private Logger logger = LoggerFactory.getLogger(CustomerZuulPreFilter.class);
     /**
@@ -50,6 +51,7 @@ public class CustomerZuulPreFilter extends ZuulFilter {
      */
     @Override
     public boolean shouldFilter() {
+
         return true;
     }
 
