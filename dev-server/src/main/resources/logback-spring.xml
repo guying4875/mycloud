@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <!-- logger上下文名称 默认default -->
+    <contextName>dev-web</contextName>
+
+    <!--日志文件存储的文件夹根路径-->
+    <property name="LOG_HOME" value="/home/zhanghy/logger"/>
+    <property name="logger-format" value="%d{YYYY-MM-dd HH:mm:ss SS} %contextName [%thread] %-5level %logger{36} -%msg%n"/>
+
+    <!--日志文件的时间滚动生成策略-->
+    <property name="fileNamePattern" value="full-%d{yyyy-MM-dd}.log"/>
+    <!--数据日志的字符集-->
+    <property name="charset" value="UTF-8"/>
+
+
+    <!-- 记录全量日志同步策略的Appender -->
+    <appender name="FULL_FILE_OUT_SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/full/full.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/full/${fileNamePattern}</fileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>3</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> <!-- com.halo.core.log.CustomPatternLayoutEncoder -->
+            <charset>${charset}</charset>
+            <pattern>${logger-format}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 记录核心组件日志同步策略的Appender -->
+    <appender name="console-appender" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${logger-format}</pattern>
+        </layout>
+    </appender>
+
+
+
+    <root level="error">
+        <!-- 记录全量日志每天产生一个 -->
+        <appender-ref ref="console-appender"/>
+    </root>
+</configuration>

@@ -4,6 +4,7 @@ package com.dev.server.user;/**
  * @date 2018-08-18-8-9 上午11:58
  */
 
+import com.dev.redis.JedisTool;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,9 @@ public class UserServer {
         for(int i=0;i<10;i++){
             list.add("user-"+i);
         }
+
+        JedisTool.set("12","123",30);
+
         return list;
     }
 }
