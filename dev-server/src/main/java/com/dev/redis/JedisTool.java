@@ -32,6 +32,8 @@ public class JedisTool {
     @Autowired
     private static SentinelPoolBuild sentinelPoolBuild;
 
+    private int expire;   //失效时间（秒）
+
 
     public static String get(String key) {
         String value = null;
@@ -102,12 +104,14 @@ public class JedisTool {
         return result;
     }
 
+
+
     public static String set(String key, String value) {
         String result = null;
         Jedis jedis = null;
         try {
             jedis = getResource();
-            result = jedis.set(key,value,"n")
+            result = jedis.set(key,value);
             logger.debug("set {} = {}", key, value);
         } catch (Exception e) {
             logger.warn("set {} = {}", key, value, e);
