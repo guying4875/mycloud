@@ -26,3 +26,10 @@ hs_err_pid*
 */target/*
 *.iml
 
+**/*.iml
+/target/*
+/.idea/*
+.idea/*
+.idea/**
+**/.idea/libraries/*
+
