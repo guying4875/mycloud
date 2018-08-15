@@ -31,5 +31,8 @@ hs_err_pid*
 /.idea/*
 .idea/*
 .idea/**
-**/.idea/libraries/*
+.idea/libraries
+
+/eureka-server/eureka-server.iml
+/dev-server/dev-server.iml
 
