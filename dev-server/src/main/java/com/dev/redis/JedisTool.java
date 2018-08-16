@@ -32,6 +32,8 @@ public class JedisTool {
     @Autowired
     private static SentinelPoolBuild sentinelPoolBuild;
 
+    private static int expire = 1200;
+
 
     public static String get(String key) {
         String value = null;
@@ -89,10 +91,8 @@ public class JedisTool {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            result = jedis.set(key, value);
-            if (cacheSeconds != 0) {
-                jedis.expire(key, cacheSeconds);
-            }
+
+            result = jedis.set(key, value,"nx","ex",cacheSeconds);
             logger.debug("set {} = {}", key, value);
         } catch (Exception e) {
             logger.warn("set {} = {}", key, value, e);
@@ -107,7 +107,7 @@ public class JedisTool {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            result = jedis.set(key,value,"n")
+            result = jedis.set(key,value,"nx","ex",expire);
             logger.debug("set {} = {}", key, value);
         } catch (Exception e) {
             logger.warn("set {} = {}", key, value, e);
