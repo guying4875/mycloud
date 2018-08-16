@@ -91,8 +91,10 @@ public class JedisTool {
         Jedis jedis = null;
         try {
             jedis = getResource();
-
-            result = jedis.set(key, value,"nx","ex",cacheSeconds);
+            result = jedis.set(key, value);
+            if (cacheSeconds != 0) {
+                jedis.expire(key, cacheSeconds);
+            }
             logger.debug("set {} = {}", key, value);
         } catch (Exception e) {
             logger.warn("set {} = {}", key, value, e);
