@@ -37,7 +37,7 @@ public class UserServer {
             list.add("user-"+i);
         }
 
-        JedisTool.set("12","123",30);
+//        jedisTool.set("12","123",30);
 
         return list;
     }

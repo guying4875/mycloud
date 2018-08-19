@@ -20,8 +20,8 @@ import javax.annotation.Resource;
  * @date 2018-08-18-8-15 下午3:13
  *
  */
-@Component("jedisPoolConfigBean")
-@ConfigurationProperties("redis.poolconfig")
+//@Component("jedisPoolConfigBean")
+//@ConfigurationProperties("redis.poolconfig")
 public class JedisPoolConfigBean {
 
     private int maxTotal;

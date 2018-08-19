@@ -36,7 +36,7 @@
 
 
 
-    <root level="error">
+    <root level="debug">
         <!-- 记录全量日志每天产生一个 -->
         <appender-ref ref="console-appender"/>
     </root>

@@ -10,7 +10,6 @@ import redis.clients.jedis.JedisPubSub;
  * @desc Redis消息订阅
  * @create 2018-08-15 21:11
  **/
-@Component
 public class RedisMsgSubScribe extends JedisPubSub {
     private Logger logger = LoggerFactory.getLogger(RedisMsgSubScribe.class);
     /**

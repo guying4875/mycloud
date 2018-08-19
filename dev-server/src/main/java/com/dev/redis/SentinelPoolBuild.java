@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
@@ -45,7 +46,7 @@ public class SentinelPoolBuild {
 
     private Set<String> getSentinelNodes(){
         Set<String> set = null;
-        String[] StrArray = StringUtils.split(sentinelnodes,",");
+        String[] StrArray = sentinelnodes.split(",");
         set = new HashSet<>(Arrays.asList(StrArray));
         return set;
     }
@@ -61,11 +62,7 @@ public class SentinelPoolBuild {
         return sentinelPool;
     }
 
-    public Jedis jedis(){
-        Jedis jedis = jedisSentinelPool().getResource();
 
-        return jedis;
-    }
 
 
 }

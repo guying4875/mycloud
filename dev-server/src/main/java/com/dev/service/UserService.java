@@ -1,22 +1,22 @@
-package com.dev.dao;/**
+package com.dev.service;/**
  * @description
  * @author zhhy
- * @date 2018-08-18-8-15 下午4:08
+ * @date 2018-08-18-8-17 上午8:58
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 /**
  *
  * @description
  * @author zhhy
- * @date 2018-08-18-8-15 下午4:08
+ * @date 2018-08-18-8-17 上午8:58
  *
  */
-@Component
-public class UserDao {
+@Service
+public class UserService {
 
 
 }

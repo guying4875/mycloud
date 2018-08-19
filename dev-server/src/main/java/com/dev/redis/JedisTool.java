@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.exceptions.JedisException;
 
 import java.util.List;
@@ -29,13 +30,14 @@ public class JedisTool {
 
     private static Logger logger = LoggerFactory.getLogger(JedisTool.class);
 
-    @Autowired
-    private static SentinelPoolBuild sentinelPoolBuild;
 
     private static int expire = 1200;
 
+    @Autowired
+    private JedisSentinelPool jedisSentinelPool;
 
-    public static String get(String key) {
+
+    public String get(String key) {
         String value = null;
         Jedis jedis = null;
         try {
@@ -53,7 +55,7 @@ public class JedisTool {
         return value;
     }
 
-    public static Set<String> keys(String pattern) {
+    public Set<String> keys(String pattern) {
         Set<String> value = null;
         Jedis jedis = null;
         try {
@@ -86,7 +88,7 @@ public class JedisTool {
 //        return value;
 //    }
 
-    public static String set(String key, String value, int cacheSeconds) {
+    public String set(String key, String value, int cacheSeconds) {
         String result = null;
         Jedis jedis = null;
         try {
@@ -104,7 +106,7 @@ public class JedisTool {
         return result;
     }
 
-    public static String set(String key, String value) {
+    public String set(String key, String value) {
         String result = null;
         Jedis jedis = null;
         try {
@@ -137,7 +139,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static List<String> getList(String key) {
+    public List<String> getList(String key) {
         List<String> value = null;
         Jedis jedis = null;
         try {
@@ -175,7 +177,7 @@ public class JedisTool {
 //        return value;
 //    }
 
-    public static long setList(String key, List<String> value, int cacheSeconds) {
+    public long setList(String key, List<String> value, int cacheSeconds) {
         long result = 0;
         Jedis jedis = null;
         try {
@@ -221,7 +223,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static long listAdd(String key, String... value) {
+    public long listAdd(String key, String... value) {
         long result = 0;
         Jedis jedis = null;
         try {
@@ -255,7 +257,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static Set<String> getSet(String key) {
+    public Set<String> getSet(String key) {
         Set<String> value = null;
         Jedis jedis = null;
         try {
@@ -293,7 +295,7 @@ public class JedisTool {
 //        return value;
 //    }
 
-    public static long setSet(String key, Set<String> value, int cacheSeconds) {
+    public long setSet(String key, Set<String> value, int cacheSeconds) {
         long result = 0;
         Jedis jedis = null;
         try {
@@ -339,7 +341,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static long setSetAdd(String key, String... value) {
+    public long setSetAdd(String key, String... value) {
         long result = 0;
         Jedis jedis = null;
         try {
@@ -373,7 +375,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static Map<String, String> getMap(String key) {
+    public Map<String, String> getMap(String key) {
         Map<String, String> value = null;
         Jedis jedis = null;
         try {
@@ -411,7 +413,7 @@ public class JedisTool {
 //        return value;
 //    }
 
-    public static String setMap(String key, Map<String, String> value, int cacheSeconds) {
+    public String setMap(String key, Map<String, String> value, int cacheSeconds) {
         String result = null;
         Jedis jedis = null;
         try {
@@ -457,7 +459,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static String mapPut(String key, Map<String, String> value) {
+    public String mapPut(String key, Map<String, String> value) {
         String result = null;
         Jedis jedis = null;
         try {
@@ -491,7 +493,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static long mapRemove(String key, String mapKey) {
+    public long mapRemove(String key, String mapKey) {
         long result = 0;
         Jedis jedis = null;
         try {
@@ -521,7 +523,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static boolean mapExists(String key, String mapKey) {
+    public boolean mapExists(String key, String mapKey) {
         boolean result = false;
         Jedis jedis = null;
         try {
@@ -551,7 +553,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static long del(String key) {
+    public long del(String key) {
         long result = 0;
         Jedis jedis = null;
         try {
@@ -589,7 +591,7 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static boolean exists(String key) {
+    public boolean exists(String key) {
         boolean result = false;
         Jedis jedis = null;
         try {
@@ -619,10 +621,10 @@ public class JedisTool {
 //        return result;
 //    }
 
-    public static Jedis getResource() throws JedisException {
+    public Jedis getResource() throws JedisException {
         Jedis jedis = null;
         try {
-            jedis = sentinelPoolBuild.jedisSentinelPool().getResource();
+            jedis = jedisSentinelPool.getResource();
 //			logger.debug("getResource.", jedis);
         } catch (JedisException e) {
             logger.warn("getResource.", e);
@@ -632,15 +634,15 @@ public class JedisTool {
         return jedis;
     }
 
-    public static void returnBrokenResource(Jedis jedis) {
+    public void returnBrokenResource(Jedis jedis) {
         if (jedis != null) {
-            sentinelPoolBuild.jedisSentinelPool().returnBrokenResource(jedis);
+            jedisSentinelPool.returnBrokenResource(jedis);
         }
     }
 
-    public static void returnResource(Jedis jedis) {
+    public void returnResource(Jedis jedis) {
         if (jedis != null) {
-            sentinelPoolBuild.jedisSentinelPool().returnResource(jedis);
+            jedisSentinelPool.returnResource(jedis);
         }
     }
 
